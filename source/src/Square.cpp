@@ -4,4 +4,4 @@ int PenaltySquare::getMoneyChange() { return -100; }
 
 int RewardSquare::getMoneyChange() { return 100; }
 
-int StartSquare::getMoneyChange() { return 500; }
+int StartSquare::getMoneyChange() { return 0; }

@@ -1,7 +1,35 @@
 #pragma once
 #include "Square.hpp"
+#include <iostream>
 #include <memory>
 #include <vector>
+
+class BoardIterator {
+public:
+  BoardIterator(std::vector<std::unique_ptr<Square>> &squares)
+      : squares(squares) {}
+
+  void advance(int moveAmount) {
+    int result = (currentPos + moveAmount) % squares.size();
+    if (result < currentPos)
+      crossedStart = true;
+    currentPos = result;
+  }
+
+  int getCurrentPos() const { return currentPos; }
+  int getSquareChange() {
+    int squareChange = squares[currentPos]->getMoneyChange();
+    if (crossedStart)
+      return squareChange + 500;
+    else
+      return squareChange;
+  }
+
+private:
+  std::vector<std::unique_ptr<Square>> &squares;
+  int currentPos = 0;
+  bool crossedStart = false;
+};
 
 struct Board {
 public:
@@ -14,22 +42,10 @@ public:
         squares.push_back(std::make_unique<RewardSquare>());
     }
   }
-  // getIterator(){
+  BoardIterator getIterator() { return BoardIterator(squares); }
 
-  //}
-  // private
+private:
   std::vector<std::unique_ptr<Square>> squares;
 
 private:
-};
-
-class BoardIterator {
-public:
-  void next() {
-    // moveBy 1
-  }
-
-private:
-  std::vector<std::unique_ptr<Square>> &squares;
-  int currentPos;
 };

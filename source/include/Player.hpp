@@ -1,12 +1,20 @@
 #pragma once
 #include <iostream>
+#include "Board.hpp"
 
 struct Player {
 public:
-  Player(std::string name) : name(name) {}
-  void updateMoneyBalance(const int moneyChange) { money += moneyChange; }
+  Player(const std::string& name, BoardIterator position) : name(name), position(position) {}
+  void updateMoneyBalance() {
+    money += position.getSquareChange(); 
+}
+  void move() {
+
+    position.advance(Dice{}.getRollSum());
+    updateMoneyBalance();
+}
 
   std::string name;
-  int position;
+  BoardIterator position;
   int money{1000};
 };
