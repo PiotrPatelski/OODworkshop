@@ -1,12 +1,12 @@
 #pragma once
 #include <iostream>
-#include "Piece.hpp"
 
 struct Player {
 public:
   Player(std::string name) : name(name) {}
+  void updateMoneyBalance(const int moneyChange) { money += moneyChange; }
 
   std::string name;
-  Piece piece;
+  int position;
   int money{1000};
 };
