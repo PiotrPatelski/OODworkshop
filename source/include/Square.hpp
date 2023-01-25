@@ -1,10 +1,28 @@
 #pragma once
 
-enum class SquareType { penalty, start, reward };
-
 struct Square {
 public:
-  Square(SquareType);
-  SquareType property;
+  virtual ~Square(){}
+  virtual int getMoneyPolicy() = 0;
+};
+
+struct PenaltySquare : public Square{
+public:
+  virtual int getMoneyPolicy();
+private:
+  int moneyAmount;
+};
+
+struct RewardSquare : public Square{
+public:
+  virtual int getMoneyPolicy();
+private:
+  int moneyAmount;
+};
+
+struct StartSquare : public Square{
+public:
+  virtual int getMoneyPolicy();
+private:
   int moneyAmount;
 };

@@ -11,11 +11,7 @@ void MonopolyGame::makeTurn()
     for (auto& player : players) 
     {
         std::cout << "Player " << player.name << "plays. Type dice value: ";
-        int diceValue, diceValue2;
-        std::cin >> diceValue >> diceValue2;
-        // TO DO STH - update board
-        int moveAmount = diceValue + diceValue2;
-        updateBoard(player, moveAmount);
+        updateBoard(player, Dice{}.getRollSum());
         printPlayerState(player);
     }
 }
@@ -38,7 +34,6 @@ void MonopolyGame::updateBoard(Player &player, int moveAmount)
       }
     }
 
-    auto square = board.squares[player.piece.position];
-    player.money += square.moneyAmount;
+    player.money += board.squares[player.piece.position]->getMoneyPolicy();
   
 }
