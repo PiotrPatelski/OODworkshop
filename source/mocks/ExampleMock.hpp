@@ -1,14 +1,14 @@
-#pragma once
+// #pragma once
 
-#include <gtest/gtest.h>
-#include <gmock/gmock.h>
-#include <ExampleInterface.hpp>
+// #include <gtest/gtest.h>
+// #include <gmock/gmock.h>
+// #include <ExampleInterface.hpp>
 
 
-using namespace ::testing;
+// using namespace ::testing;
 
-class ExampleMock : public ExampleInterface
-{
-public:
-    MOCK_METHOD(void, doStuff, (), (override));
-};
+// class ExampleMock : public ExampleInterface
+// {
+// public:
+//     MOCK_METHOD(void, doStuff, (), (override));
+// };

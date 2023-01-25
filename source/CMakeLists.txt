@@ -10,7 +10,9 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(googletest)
 
-add_library(Stuff src/ExampleStuff.cpp include/ExampleStuff.hpp)
+add_library(Stuff 
+    src/MonopolyGame.cpp 
+    src/Square.cpp)
 target_include_directories(Stuff PUBLIC include)
 
 add_executable(workshop src/main.cpp)
