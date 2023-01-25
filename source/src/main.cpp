@@ -2,7 +2,27 @@
 #include <iostream>
 #include <vector>
 
-enum class Square { penalty, start, reward };
+enum class FieldProperty { penalty, start, reward };
+
+struct Square{
+public:
+    Square(FieldProperty property)
+    : property{property}
+    {
+        switch(property)
+        {
+            case FieldProperty::penalty:
+                moneyAmount = -100;
+                break;
+            case FieldProperty::reward:
+                moneyAmount = 100;
+            case FieldProperty::start:
+                moneyAmount = 500;
+        }
+    }
+    FieldProperty property;
+    int moneyAmount;
+};
 
 struct Piece {
   int position{};
@@ -11,12 +31,12 @@ struct Piece {
 struct Board {
 public:
   Board() {
-    squares.push_back(Square::start);
+    squares.push_back(Square{FieldProperty::start});
     for (int i = 1; i < 40; i++) {
       if (i % 2 == 0)
-        squares.push_back(Square::penalty);
+        squares.push_back(Square{FieldProperty::penalty});
       else
-        squares.push_back(Square::reward);
+        squares.push_back(Square{FieldProperty::reward});
     }
   }
   std::vector<Square> squares;
@@ -45,6 +65,8 @@ public:
       int diceValue, diceValue2;
       std::cin >> diceValue >> diceValue2;
       // TO DO STH - update board
+      int moveAmount = diceValue + diceValue2;
+      updateBoard(player, moveAmount);
       printPlayerState(player);
     }
   }
@@ -52,7 +74,21 @@ public:
 private:
   std::vector<Player> players;
   Board board;
-  void printPlayerState(const Player &player) {}
+  void printPlayerState(const Player &player) {
+    std::cout<<"player: "<<player.name<<
+            "\nmoney: "<<player.money<<
+            "\nfield: "<<player.piece.position<<std::endl;
+  }
+  void updateBoard(Player &player, int moveAmount)
+  {
+    player.piece.position += moveAmount;
+    auto fieldProperty = board.squares[player.piece.position];
+    // switch(fieldProperty)
+    // {
+    //     case Square::penalty:
+    //         player.money -= 
+    // }
+  }
 };
 
 int main() {
