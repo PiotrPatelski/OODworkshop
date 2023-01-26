@@ -14,9 +14,7 @@ void MonopolyGame::play(int rounds) {
 void MonopolyGame::makeTurn() {
   for (auto &player : players) {
     printer.printWhoseTurn(player.name);
-    // updateBoard(player);
     player.move();
     printer.printPlayerState(player);
   }
 }
-

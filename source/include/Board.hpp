@@ -10,42 +10,48 @@ public:
       : squares(squares) {}
 
   void advance(int moveAmount) {
-    int result = (currentPos + moveAmount) % squares.size();
-    if (result < currentPos)
-      crossedStart = true;
-    currentPos = result;
+    onPassedSum = 0;
+    for (auto localPos = 0; localPos < moveAmount; localPos++) {
+      if (currentPos == squares.size() - 1) {
+        currentPos = 0;
+      } else {
+        currentPos++;
+      }
+      int previousPos = (currentPos == 0) ? squares.size() - 1 : currentPos - 1;
+      onPassedSum += squares[previousPos]->onPassMoneyChange();
+    }
   }
 
   int getCurrentPos() const { return currentPos; }
   int getSquareChange() {
-    int squareChange = squares[currentPos]->getMoneyChange();
-    if (crossedStart)
-      return squareChange + 500;
-    else
-      return squareChange;
+    return (squares[currentPos]->getMoneyChange() + onPassedSum);
   }
 
 private:
   std::vector<std::unique_ptr<Square>> &squares;
   int currentPos = 0;
   bool crossedStart = false;
+  int onPassedSum = 0;
 };
 
 struct Board {
 public:
   Board() {
+    // 0 - StartSquare
     squares.push_back(std::make_unique<StartSquare>());
-    for (int i = 1; i < 40; i++) {
-      if (i % 2 == 0)
-        squares.push_back(std::make_unique<PenaltySquare>());
-      else
-        squares.push_back(std::make_unique<RewardSquare>());
+    // 1-9 - RewardSquare
+    for (int i = 1; i < 10; i++) {
+      squares.push_back(std::make_unique<RewardSquare>());
+    }
+    // 10 - DepositSquare
+    squares.push_back(std::make_unique<DepositSquare>());
+
+    for (int i = 11; i < 40; i++) {
+      squares.push_back(std::make_unique<PenaltySquare>());
     }
   }
   BoardIterator getIterator() { return BoardIterator(squares); }
 
 private:
   std::vector<std::unique_ptr<Square>> squares;
-
-private:
 };
