@@ -15,10 +15,10 @@ public:
   void play(int rounds);
 
 private:
-  std::vector<std::unique_ptr<Player>> players;
+  std::vector<std::shared_ptr<Player>> players;
   Board board;
   Printer printer;
-  void printPlayerState(const Player &player);
-  void updateBoard(Player &player, int moveAmount);
+  void printPlayerState(const Player& player);
+  void updateBoard(std::shared_ptr<Player> player, int moveAmount);
   void makeTurn();
 };
