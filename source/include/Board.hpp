@@ -9,14 +9,14 @@ public:
   BoardIterator(std::vector<std::shared_ptr<Square>> &squares)
       : squares(squares) {}
 
-  void advance(Player & player, int diceValue) {
+  void advance(Player &player, int diceValue) {
     for (int step = 0; step < diceValue; step++) {
       advanceByOne(player);
     }
     squares[currentPos]->onStay(player);
   }
 
-  void advanceByOne(Player & player) {
+  void advanceByOne(Player &player) {
     if (not isFirstMove) {
       squares[currentPos]->onPass(player);
     }
@@ -42,12 +42,21 @@ public:
   Board() {
     // 0 - StartSquare
     squares.push_back(std::make_shared<StartSquare>());
-    // 1-9 - RewardSquare
-    for (int i = 1; i < 10; i++) {
+    // 1 - RealEstateSquare
+    squares.push_back(std::make_shared<EstateSquare>());
+    // 2 - RandomSquareEstateSquare (Penalty->Estate->Deposit)
+    squares.push_back(std::make_shared<RandomSquare>());
+    // 3 - BlackHole
+    squares.push_back(
+        std::make_shared<BlackHoleSquare>(std::make_unique<PenaltySquare>()));
+    // 4 - Prison
+    squares.push_back(std::make_shared<PrisonSquare>());
+    // 5-9 - RewardSquare
+    for (int i = 5; i < 10; i++) {
       squares.push_back(std::make_shared<RewardSquare>());
     }
-    // 10 - DepositSquare
-    squares.push_back(std::make_shared<DepositSquare>());
+    // 10 - RewardSquare
+    squares.push_back(std::make_shared<RewardSquare>());
 
     // 11 - 40 - PenaltySquare
     for (int i = 11; i < 40; i++) {

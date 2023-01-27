@@ -18,5 +18,5 @@ struct UserControlledDice : public Dice {
 };
 
 struct ComputerControlledDice : public Dice {
-  virtual int getRollSum() override { return 5; }
+  virtual int getRollSum() override { return 2; }
 };

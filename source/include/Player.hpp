@@ -8,13 +8,14 @@ public:
   Player(const std::string &name, BoardIterator position)
       : name(name), position(position) {}
   virtual void move() = 0;
-  virtual bool wantsToBuy() = 0;
+  virtual bool wantsToBuy(int price) = 0;
   virtual ~Player() {}
 
   std::string name;
   BoardIterator position;
   int money{1000};
   std::shared_ptr<Dice> dice;
+  int wantedLevel{0};
 };
 
 struct HumanPlayer : public Player {
@@ -24,11 +25,24 @@ public:
     dice = std::make_shared<UserControlledDice>();
   }
 
-  virtual void move() override { position.advance(*this, dice->getRollSum()); }
-  virtual bool wantsToBuy() override {
+  virtual void move() override {
+    if (wantedLevel == 0) {
+      position.advance(*this, dice->getRollSum());
+    } else {
+      wantedLevel--;
+    }
+  }
+  virtual bool wantsToBuy(int price) override {
     bool definetly;
+    std::cout << "Type 1 if you want to buy\n";
     std::cin >> definetly;
-    return definetly;
+    bool decision{false};
+    if (money >= price) {
+      decision = true;
+    } else {
+      std::cout << "You dont have enough money\n";
+    }
+    return decision;
   }
 };
 
@@ -40,5 +54,5 @@ public:
   }
 
   virtual void move() override { position.advance(*this, dice->getRollSum()); }
-  virtual bool wantsToBuy() override {return true;}
+  virtual bool wantsToBuy(int price) override { return (money >= price); }
 };
