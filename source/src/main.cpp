@@ -4,6 +4,7 @@
 
 int main() {
   MonopolyGame monopolygame;
-  monopolygame.addPlayer("PlayerOne");
+  monopolygame.addHumanPlayer("PlayerOne");
+  monopolygame.addComputerPlayer("BOT Vladimir");
   monopolygame.play(10);
 }

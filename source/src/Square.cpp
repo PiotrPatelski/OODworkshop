@@ -1,17 +1,21 @@
 #include "Square.hpp"
+#include "Player.hpp"
 
-int PenaltySquare::getMoneyChange() { return -100; }
-int PenaltySquare::onPassMoneyChange() { return 0; }
+void PenaltySquare::onStay(Player &player) { player.money -= 100; }
+void PenaltySquare::onPass(Player &player) {}
 
-int RewardSquare::getMoneyChange() { return 100; }
-int RewardSquare::onPassMoneyChange() { return 0; }
+void RewardSquare::onStay(Player &player) { player.money += 100; }
+void RewardSquare::onPass(Player &player) {}
 
-int StartSquare::getMoneyChange() { return 0; }
-int StartSquare::onPassMoneyChange() { return 500; }
+void StartSquare::onStay(Player &player) {}
+void StartSquare::onPass(Player &player) { player.money += 500; }
 
-int DepositSquare::getMoneyChange() { return moneyDeposit; }
-int DepositSquare::onPassMoneyChange() {
-  const int stolenMoney = 50;
+void DepositSquare::onStay(Player &player) {
+  player.money += moneyDeposit;
+  moneyDeposit = 0;
+}
+void DepositSquare::onPass(Player &player) {
+  int stolenMoney = 50;
+  player.money -= stolenMoney;
   moneyDeposit += stolenMoney;
-  return -stolenMoney;
 }

@@ -10,11 +10,12 @@ class MonopolyGame {
 public:
   MonopolyGame() { std::cout << "Hello in monopoly game!" << std::endl; };
 
-  void addPlayer(std::string playerName);
+  void addHumanPlayer(std::string playerName);
+  void addComputerPlayer(std::string playerName);
   void play(int rounds);
 
 private:
-  std::vector<Player> players;
+  std::vector<std::unique_ptr<Player>> players;
   Board board;
   Printer printer;
   void printPlayerState(const Player &player);

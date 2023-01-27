@@ -1,8 +1,14 @@
 #include <MonopolyGame.hpp>
 #include <iostream>
 
-void MonopolyGame::addPlayer(std::string playerName) {
-  players.push_back(Player(playerName, board.getIterator()));
+void MonopolyGame::addHumanPlayer(std::string playerName) {
+  players.push_back(
+      std::make_unique<HumanPlayer>(playerName, board.getIterator()));
+}
+
+void MonopolyGame::addComputerPlayer(std::string playerName) {
+  players.push_back(
+      std::make_unique<ComputerPlayer>(playerName, board.getIterator()));
 }
 
 void MonopolyGame::play(int rounds) {
@@ -13,8 +19,8 @@ void MonopolyGame::play(int rounds) {
 
 void MonopolyGame::makeTurn() {
   for (auto &player : players) {
-    printer.printWhoseTurn(player.name);
-    player.move();
-    printer.printPlayerState(player);
+    printer.printWhoseTurn(player->name);
+    player->move();
+    printer.printPlayerState(*player);
   }
 }
